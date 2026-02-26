@@ -7,11 +7,12 @@ from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 import os
 import logging
+from src.prompt import prompt
 
 from langchain_pinecone import PineconeVectorStore
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate
+#from langchain_core.prompts import ChatPromptTemplate
 
 from src.helper import download_embeddings
 from src.langchain_groq import ChatGroq
@@ -102,32 +103,6 @@ def get_rag_chain():
     llm = get_llm()
     retriever = get_retriever()
 
-    prompt = ChatPromptTemplate.from_template(
-        """
-You are a detailed medical assistant.
-
-Use ALL retrieved context to answer thoroughly.
-
-Provide:
-- Definition
-- Causes
-- Symptoms
-- Risk factors
-- Complications
-- Treatment
-- Prevention
-- Prognosis
-
-Context:
-{context}
-
-Question:
-{input}
-
-Comprehensive Answer:
-"""
-    )
-
     combine_docs_chain = create_stuff_documents_chain(
         llm.get_llm(),
         prompt
@@ -157,6 +132,13 @@ def chat():
     if not user_message:
         return jsonify({"response": "Please enter a question."})
 
+    greetings = ["hi", "hello", "hey", "good morning", "good evening"]
+
+    if user_message.lower() in greetings:
+        return jsonify({
+            "response": "Hello! 👋 I'm your medical assistant. How can I help you today?"
+        })
+
     try:
         rag_chain = get_rag_chain()
 
@@ -177,4 +159,4 @@ def chat():
 
 if __name__ == "__main__":
     logger.info("Starting Medical Chatbot...")
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)
