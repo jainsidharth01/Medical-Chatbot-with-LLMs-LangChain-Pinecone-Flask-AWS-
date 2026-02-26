@@ -3,7 +3,7 @@ from langchain.prompts import ChatPromptTemplate
 system_prompt = """
 You are an expert medical assistant.
 
-Use the retrieved context to answer the question accurately and comprehensively.
+Provide the answer in clear structured sections with headings.
 
 Guidelines:
 - Provide a structured answer using clear headings.
