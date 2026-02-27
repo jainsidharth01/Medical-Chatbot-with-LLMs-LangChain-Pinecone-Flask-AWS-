@@ -2,21 +2,20 @@ FROM python:3.10
 
 WORKDIR /app
 
-# Install system dependencies required for torch/scipy
 RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy only requirements first (better caching)
 COPY requirements.txt .
 
-# Upgrade pip
-RUN pip install --upgrade pip
+# 🔥 Force modern resolver properly
+RUN python -m pip install --upgrade pip setuptools wheel
 
-# Install Python dependencies without cache
+# Verify pip version (debug line)
+RUN pip --version
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy rest of the project
 COPY . .
 
 CMD ["python3", "app.py"]
