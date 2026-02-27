@@ -1,6 +1,6 @@
 langchain==0.3.26
-langchain-core==0.3.83
-langchain-community==0.3.26
+#langchain-core==0.3.83
+#langchain-community==0.3.26
 langchain-pinecone==0.2.8
 langchain-groq==0.2.1
 
