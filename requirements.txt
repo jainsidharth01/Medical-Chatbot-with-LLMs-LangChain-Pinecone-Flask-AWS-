@@ -4,7 +4,7 @@ langchain==0.3.26
 langchain-pinecone==0.2.8
 langchain-groq==0.2.1
 
-pinecone==3.2.2
+#pinecone==3.2.2
 groq==0.9.0
 
 flask==3.0.1
